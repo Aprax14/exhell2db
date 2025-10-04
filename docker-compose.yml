@@ -1,0 +1,47 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.8
+    container_name: clickhouse-server
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "wget -qO- http://localhost:8123/ping | grep -q 'Ok'"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - ch_data:/var/lib/clickhouse
+      - ./clickhouse/init:/docker-entrypoint-initdb.d
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+        
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rust_webserver
+    depends_on:
+      clickhouse:
+       condition: service_healthy
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      RUST_LOG: ${RUST_LOG}
+      CH_HOST: clickhouse
+      CH_HTTP_PORT: "8123"
+      CH_USER: ${CLICKHOUSE_USER}
+      CH_PASSWORD: ${CLICKHOUSE_PASSWORD}
+      CH_DATABASE: ${CLICKHOUSE_DB}
+
+volumes:
+  ch_data:

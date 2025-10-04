@@ -1,0 +1,26 @@
+[workspace]
+members = [
+    "exhell-cli",
+    "exhell-utils",
+    "webserver",
+]
+
+[workspace.dependencies]
+clap = {version = "4.5.46", features = ["derive"]}
+anyhow = "1.0.99"
+axum = { version = "0.8.4", default-features = false , features = ["http1", "tokio", "json", "query"]}
+clickhouse = {git = "https://github.com/ClickHouse/clickhouse-rs", features = ["inserter", "uuid", "chrono", "time"]}
+dotenvy = "0.15.7"
+envy = "0.4.2"
+features = { version = "0.10.0", default-features = false }
+http1 = { version = "0.0.2", default-features = false }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+tokio = { version = "1.47.1", default-features = false, features = ["macros", "rt-multi-thread", "rt", "sync"] }
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
+tower-http = { version = "0.6", features = ["trace"] }
+calamine = "0.30.0"
+chrono = {version = "0.4.41", features = ["serde"]}
+uuid = {version = "1.18.0", features = ["serde", "v4"]}
+serde_repr = "0.1.20"

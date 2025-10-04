@@ -1,0 +1,18 @@
+[package]
+name = "exhell-cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap.workspace = true
+clickhouse.workspace = true
+dotenvy.workspace = true
+envy.workspace = true
+serde.workspace = true
+anyhow.workspace = true
+tokio.workspace = true
+exhell-utils = { path = "../exhell-utils" }
+tracing.workspace = true
+tracing-subscriber.workspace = true
+uuid.workspace = true
+chrono.workspace = true

@@ -1,0 +1,13 @@
+[package]
+name = "exhell-utils"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow.workspace = true
+calamine.workspace = true
+chrono.workspace = true
+serde.workspace = true
+uuid.workspace = true
+clickhouse.workspace = true
+serde_repr.workspace = true
